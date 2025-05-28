@@ -84,8 +84,6 @@ export const TablaVentas = ({ paginated = [], getVenta, eliminarVenta, handleGet
           >
             FECHA
           </TableSortLabel>,
-          'Subtotal',
-          'DESCUENTO',
           'TOTAL'
           , 'ACCIONES']} />
         <TableBody>
@@ -103,8 +101,8 @@ export const TablaVentas = ({ paginated = [], getVenta, eliminarVenta, handleGet
                   minute: "2-digit",
                 })}
               </TableCell>
-              <TableCell sx={styleTableBody} align="center"> {venta?.subtotal?.toFixed(2)} Bs. </TableCell>
-              <TableCell sx={styleTableBody} align="center"> {(venta.subtotal - venta.total)?.toFixed(2)} Bs. </TableCell>
+              {/* <TableCell sx={styleTableBody} align="center"> {venta?.subtotal?.toFixed(2)} Bs. </TableCell> */}
+              {/* <TableCell sx={styleTableBody} align="center"> {(venta.subtotal - venta.total)?.toFixed(2)} Bs. </TableCell> */}
               <TableCell sx={styleTableBody} align="center"> {venta?.total?.toFixed(2)} Bs. </TableCell>
               <TableCell sx={styleTableBody} align="center">
                 <Tooltip title={"Opciones"} placement='top'>
@@ -128,7 +126,7 @@ export const TablaVentas = ({ paginated = [], getVenta, eliminarVenta, handleGet
                 >
                   <MenuItem onClick={() => handleOpenModalInfo(venta.id)}>
                     <GridViewIcon />
-                    Ver Informacion
+                    Ver Información
                   </MenuItem>
                   <MenuItem onClick={() => handleOpenNotaDialog(venta.id)}>
                     <PictureAsPdfIcon />

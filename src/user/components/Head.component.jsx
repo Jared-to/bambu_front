@@ -3,7 +3,7 @@ import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOu
 import pdf from "../../../public/icons/pdf.svg";
 import excel from "../../../public/icons/excel.svg";
 
-export const Head = ({ title, subtitle, handleFuctionPDF, handleFunctionExcel, textButton, handleFunctionButton, whitCaja = true }) => {
+export const Head = ({ title, subtitle, handleFuctionPDF, handleFunctionExcel, textButton, handleFunctionButton, whitCaja = true, withPdf = false, withExcel = false }) => {
   return (
     <Box sx={{ padding: 1 }}>
       <Box
@@ -44,32 +44,38 @@ export const Head = ({ title, subtitle, handleFuctionPDF, handleFunctionExcel, t
           justifyContent={{ xs: "center", sm: "flex-end" }} // Centra en pantallas pequeñas
           alignItems="center"
         >
-          <Tooltip title="PDF" placement="top">
-            <IconButton
-              onClick={handleFuctionPDF}
-              sx={{
-                backgroundColor: "#f1f1f1",
-                borderRadius: 1,
-                padding: 1,
-                "&:hover": { backgroundColor: "#e0e0e0" },
-              }}
-            >
-              <img src={pdf} alt="PDF" style={{ width: 20, height: 20 }} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Excel" placement="top">
-            <IconButton
-              onClick={handleFunctionExcel}
-              sx={{
-                backgroundColor: "#f1f1f1",
-                borderRadius: 1,
-                padding: 1,
-                "&:hover": { backgroundColor: "#e0e0e0" },
-              }}
-            >
-              <img src={excel} alt="Excel" style={{ width: 20, height: 20 }} />
-            </IconButton>
-          </Tooltip>
+          {
+            withPdf &&
+            <Tooltip title="PDF" placement="top">
+              <IconButton
+                onClick={handleFuctionPDF}
+                sx={{
+                  backgroundColor: "#f1f1f1",
+                  borderRadius: 1,
+                  padding: 1,
+                  "&:hover": { backgroundColor: "#e0e0e0" },
+                }}
+              >
+                <img src={pdf} alt="PDF" style={{ width: 20, height: 20 }} />
+              </IconButton>
+            </Tooltip>
+          }
+          {
+            withExcel &&
+            <Tooltip title="Excel" placement="top">
+              <IconButton
+                onClick={handleFunctionExcel}
+                sx={{
+                  backgroundColor: "#f1f1f1",
+                  borderRadius: 1,
+                  padding: 1,
+                  "&:hover": { backgroundColor: "#e0e0e0" },
+                }}
+              >
+                <img src={excel} alt="Excel" style={{ width: 20, height: 20 }} />
+              </IconButton>
+            </Tooltip>
+          }
           {whitCaja ? (
             <Button
               onClick={handleFunctionButton}

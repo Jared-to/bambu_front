@@ -35,10 +35,49 @@ export const useReportStore = () => {
       }, 5000);
     }
   }
+  const dischargeExcelVentas = async (fechaIn, fechaFn) => {
+    dispatch(checking());
+    try {
+      const response = await inventarioApi.get(`/excel/ventas?fechaInicio=${fechaIn}&fechaFin=${fechaFn}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        responseType: 'blob' // Cambiar el tipo de respuesta a 'blob' para archivos binarios
+      });
+
+      // Crear un enlace para descargar el archivo
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+
+      // Suponiendo que el servidor envía el archivo con un nombre, sino, asigna un nombre por defecto
+      link.setAttribute('download', 'ventas.xlsx');
+      document.body.appendChild(link);
+      link.click();
+
+      // Limpiar el URL para liberar memoria
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+
+      dispatch(onTrue({ message: 'Archivo descargado con éxito' }));
+      return response.data;
+    } catch (error) {
+      console.log("catch", error);
+      dispatch(onFalse(error.response.data.message[0]));
+
+      // Limpia el mensaje de error después de 5 segundos
+      setTimeout(() => {
+        dispatch(clearErrorMessage());
+      }, 5000);
+
+      throw error.response.data;
+    }
+  }
 
   return {
     message,
     errorMessage,
-    getGeneral
+    getGeneral,
+    dischargeExcelVentas
   }
 }

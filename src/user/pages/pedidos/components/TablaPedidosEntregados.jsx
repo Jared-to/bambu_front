@@ -182,7 +182,7 @@ export const TablaPedidosEntregados = ({ paginated = [], getPedidosInfo, handleG
                     Icon={WhatsAppIcon}
                     colorText={'#118d60'}
                     hoverBg={'#118d60'}
-                    title="información"
+                    title="WhatsApp"
                   />
                   <ButtonIcon
                     handleFunctionButton={() => handleOpenModalInfo(pedido.id)}

@@ -41,6 +41,23 @@ export const PaperInfo = ({ clientes = [], formState, onInputChange, productoSel
     return Math.ceil(calcularSubtotal - totalDescontado);
   }, [calcularSubtotal, totalDescontado]);
 
+    const handleChangeEfectivo = (e) => {
+    const value = e.target.value;
+
+    if (!isNaN(value) && parseFloat(value || 0) + parseFloat(formState.qr || 0) <= parseFloat(calcularSubtotal)) {
+      onInputChange({ target: { name: 'efectivo', value: value } })
+    }
+  }
+  const handleChangeQR = (e) => {
+    const value = e.target.value;
+
+    if (!isNaN(value) && parseFloat(value || 0) + parseFloat(formState.efectivo || 0) <= parseFloat(calcularSubtotal)) {
+      onInputChange({ target: { name: 'qr', value: value } })
+
+    }
+  }
+
+
   // Actualizar monto cambio cuando cambie el monto efectivo
   useEffect(() => {
     setMontoCambio((parseFloat(montoEfectivo || 0) - parseFloat(totalConDescuento)).toFixed(2));
@@ -48,10 +65,10 @@ export const PaperInfo = ({ clientes = [], formState, onInputChange, productoSel
   }, [montoEfectivo, totalConDescuento]);
 
   useEffect(() => {
-    if (formState.montoRecibido > 0) {
-      setMontoEfectivo(formState.montoRecibido)
+    if (totalConDescuento > 0) {
+      setMontoEfectivo(totalConDescuento)
     }
-  }, [formState.montoRecibido])
+  }, [totalConDescuento])
 
   return (
     <Paper sx={{ p: 3, borderTop: '4px solid green', borderRadius: 2, boxShadow: 1 }}>
@@ -180,61 +197,9 @@ export const PaperInfo = ({ clientes = [], formState, onInputChange, productoSel
           <Grid item xs={12} md={1}>
 
           </Grid>
-          {/* <Grid item xs={12} md={6}>
-            <Typography fontFamily={'Nunito'} fontSize={'14px'} fontWeight={600} color="text.secondary">
-              Descuento
-            </Typography>
-            <Select
-              size="small"
-              onChange={onInputChange}
-              name="descuentoSelect"
-              value={formState.descuentoSelect}
-              sx={{ borderRadius: 1, fontSize: '14px' }}
-              fullWidth
-            >
-              <MenuItem value="xx">Sin Descuento</MenuItem>
-              {
-                descuentos.map((descuento) => (
-                  <MenuItem key={descuento.id} value={descuento.id}>{descuento.descuento + " - " + (descuento.porcentaje + '%')}</MenuItem>
-                ))
-              }
-            </Select>
-          </Grid> */}
-          {/* <Grid item xs={12} md={5}>
-            <Typography fontFamily={'Nunito'} fontSize={'14px'} fontWeight={600} color="text.secondary">
-              Total Descontado
-            </Typography>
-            <TextField
-              fullWidth
-              value={totalDescontado}
-              size="small"
-              variant="outlined"
-              InputProps={{
-                readOnly: true,
-                sx: { bgcolor: "#f5f5f5", borderRadius: 1 },
-                endAdornment: <InputAdornment position="start">BOB</InputAdornment>
-              }}
-            />
-          </Grid> */}
           <Grid item xs={12} md={6}>
 
           </Grid>
-          {/* <Grid item xs={12} md={5}>
-            <Typography fontFamily={'Nunito'} fontSize={'14px'} fontWeight={600} color="text.secondary">
-              Total Neto
-            </Typography>
-            <TextField
-              fullWidth
-              value={totalConDescuento}
-              size="small"
-              variant="outlined"
-              InputProps={{
-                readOnly: true,
-                sx: { bgcolor: "#f5f5f5", borderRadius: 1 },
-                endAdornment: <InputAdornment position="start">BOB</InputAdornment>
-              }}
-            />
-          </Grid> */}
 
           {/* Método de Pago */}
           <Grid item xs={12} md={5}>
@@ -253,6 +218,7 @@ export const PaperInfo = ({ clientes = [], formState, onInputChange, productoSel
               <MenuItem value="">Seleccionar Método</MenuItem>
               <MenuItem value="EFECTIVO">Efectivo</MenuItem>
               <MenuItem value="QR">QR</MenuItem>
+              <MenuItem value="QR-EFECTIVO">QR-EFECTIVO</MenuItem>
             </Select>
           </Grid>
 
@@ -293,6 +259,39 @@ export const PaperInfo = ({ clientes = [], formState, onInputChange, productoSel
                   endAdornment: <InputAdornment position="start" sx={{ fontSize: '14px' }}>BOB</InputAdornment>
                 }}
               />
+            </Collapse>
+          </Grid>
+          <Grid item xs={12}>
+            <Collapse in={formState.metodoPago === 'QR-EFECTIVO'}>
+              <Box display={'flex'} gap={2} mt={1} flexWrap="wrap">
+                <Box flex={1} minWidth={150}>
+                  <Typography fontFamily={'Nunito'} fontSize={'14px'} fontWeight={600} color="text.secondary">
+                    Efectivo
+                  </Typography>
+                  <TextFieldComponent
+                    name={'efectivo'}
+                    placeholder={'Total Pagado en Efectivo'}
+                    type={'text'}
+                    formState={formState}
+                    onInputChange={handleChangeEfectivo}
+                    small
+                  />
+                </Box>
+                <Box flex={1} minWidth={150}>
+                  <Typography fontFamily={'Nunito'} fontSize={'14px'} fontWeight={600} color="text.secondary">
+                    QR
+                  </Typography>
+                  <TextFieldComponent
+                    name={'qr'}
+                    placeholder={'Total Pagado en QR'}
+                    type={'text'}
+                    formState={formState}
+                    onInputChange={handleChangeQR}
+                    small
+                  />
+                </Box>
+              </Box>
+
             </Collapse>
           </Grid>
           <Grid item xs={12} md={7}>

@@ -93,9 +93,27 @@ export const ModalInfoVenta = ({ open, handleClose, infoVenta = {} }) => {
             </Typography>
             <Typography variant="body2" color="#777">{(infoVenta?.subtotal - infoVenta?.total)?.toFixed(2) + ' Bs.' || "No disponible"}</Typography>
           </Grid> */}
+          {
+            tipo_pago === 'QR-EFECTIVO' &&
+            <Grid item xs={12} sm={6}>
+              <Typography fontWeight={500} color="#555" variant="body1">
+                <strong>Total Efectivo :</strong>
+              </Typography>
+              <Typography variant="body2" color="#777">{(infoVenta?.montoEfectivo)?.toFixed(2) + ' Bs.' || "No disponible"}</Typography>
+            </Grid>
+          }
+          {
+            tipo_pago === 'QR-EFECTIVO' &&
+            <Grid item xs={12} sm={6}>
+              <Typography fontWeight={500} color="#555" variant="body1">
+                <strong>Total QR:</strong>
+              </Typography>
+              <Typography variant="body2" color="#777">{(infoVenta?.montoQR)?.toFixed(2) + ' Bs.' || "No disponible"}</Typography>
+            </Grid>
+          }
           <Grid item xs={12} sm={6}>
             <Typography fontWeight={500} color="#555" variant="body1">
-              <strong>Total Neto :</strong>
+              <strong>Total :</strong>
             </Typography>
             <Typography variant="body2" color="#777">{(infoVenta?.total)?.toFixed(2) + ' Bs.' || "No disponible"}</Typography>
           </Grid>

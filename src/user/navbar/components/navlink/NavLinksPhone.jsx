@@ -40,12 +40,12 @@ const navItems = [
       //   to: "activos",
       //   rol: 'admin'
       // },
-      // {
-      //   label: "Sucursales",
-      //   icon: AddBusinessOutlinedIcon,
-      //   to: "sucursales",
-      //   rol: 'admin'
-      // },
+      {
+        label: "Sucursales",
+        icon: AddBusinessOutlinedIcon,
+        to: "sucursales",
+        rol: 'admin'
+      },
       {
         label: "Inventario Total",
         icon: Storage,
@@ -69,12 +69,12 @@ const navItems = [
   {
     section: "Operaciones",
     items: [
-      // {
-      //   label: "Pedidos",
-      //   icon: FilterFramesIcon,
-      //   to: "pedidos",
-      //   rol: 'user'
-      // },
+      {
+        label: "Pedidos",
+        icon: FilterFramesIcon,
+        to: "pedidos",
+        rol: 'user'
+      },
       {
         label: "Nueva Venta",
         icon: ShoppingCartOutlinedIcon,

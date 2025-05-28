@@ -8,6 +8,7 @@ import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import PaymentIcon from '@mui/icons-material/Payment';
 
 import pdf from "../../../../public/icons/pdf.svg";
+import excel from "../../../../public/icons/excel.svg";
 import { usePagination } from "../../../hooks/usePagination"
 import { Filter } from "../../components/Filter.component";
 import HeaderRecordsSale from "./components/HeaderRecordsSale";
@@ -17,6 +18,7 @@ import { manejarRangosFechas } from "../../helpers/manejarRangosFechas";
 import { CuadrosInfo } from "../../elements/CuadrosInfo";
 import { fechaFormateada } from "../../helpers/ObtenerFechaActualText";
 import { useUserStore } from "../../../hooks/useUserStore";
+import { useReportStore } from "../../../hooks/useReportStore";
 
 
 
@@ -42,6 +44,7 @@ export const PagRegistrosVentas = () => {
   }
   //hooks
   //hooks de filtrado
+  const { dischargeExcelVentas } = useReportStore()
   const { handleChangePage, page, paginatedData, rowsPerPage, searchName, setSearchName, filteredEmployees } = usePagination(orderPaginated, 'codigo', 5)
   //control de fechas
   const { endDate, handlePeriodClick, setEndDate, setStartDate, startDate } = manejarRangosFechas(handleGetDataFech)
@@ -49,7 +52,7 @@ export const PagRegistrosVentas = () => {
   //traer datos async
   const handleGetData = async (fechaIn = 'xx', fechaFn = 'xx') => {
     const data = await getVentas(fechaIn, fechaFn);
-    
+
     // Aplicar filtro por vendedor si se ha seleccionado uno
     const filteredData = userSelect ? data.filter(venta => venta.vendedor.id === userSelect) : data;
 
@@ -61,7 +64,7 @@ export const PagRegistrosVentas = () => {
   }
   const handleGetDataFechas = async (e) => {
     e.preventDefault()
-    
+
     handleGetData(startDate, endDate)
   }
   const handleGetUsers = async () => {
@@ -74,6 +77,10 @@ export const PagRegistrosVentas = () => {
   const handleDischargeReportPDF = async () => {
     await dischargePDFReporte(startDate, endDate)
   }
+  //Descargar Excel
+  const handleDischargeReportExcel=async()=>{
+    await dischargeExcelVentas(startDate,endDate);
+  }
   // Calcular los totales
   const calculateTotals = (data) => {
     let totalEfec = 0;
@@ -85,6 +92,9 @@ export const PagRegistrosVentas = () => {
         totalEfec += venta.total;
       } else if (venta.tipo_pago === 'QR') {
         totalQr += venta.total;
+      } else {
+        totalQr += venta.montoQR;
+        totalEfec += venta.montoEfectivo;
       }
       totalNeto += venta.total;
     });
@@ -115,7 +125,7 @@ export const PagRegistrosVentas = () => {
   }, [])
 
   useEffect(() => {
-    handleGetData(startDate,endDate)
+    handleGetData(startDate, endDate)
   }, [userSelect, selectMetodoPago])
 
 
@@ -189,7 +199,7 @@ export const PagRegistrosVentas = () => {
             <Box>
               <Tooltip title="Descargar (PDF)" placement="top">
                 <IconButton
-                  onClick={()=>handleDischargeReportPDF()}
+                  onClick={() => handleDischargeReportPDF()}
                   sx={{
                     backgroundColor: "#f1f1f1",
                     borderRadius: 1,
@@ -198,6 +208,19 @@ export const PagRegistrosVentas = () => {
                   }}
                 >
                   <img src={pdf} alt="PDF" style={{ width: 20, height: 20 }} />
+                </IconButton>
+              </Tooltip>
+               <Tooltip title="Descargar (Excel)" placement="top">
+                <IconButton
+                  onClick={() => handleDischargeReportExcel()}
+                  sx={{
+                    backgroundColor: "#f1f1f1",
+                    borderRadius: 1,
+                    padding: 1,
+                    "&:hover": { backgroundColor: "#e0e0e0" },
+                  }}
+                >
+                  <img src={excel} alt="PDF" style={{ width: 20, height: 20 }} />
                 </IconButton>
               </Tooltip>
             </Box>

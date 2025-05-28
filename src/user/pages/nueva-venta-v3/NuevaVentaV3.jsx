@@ -49,7 +49,9 @@ export const NuevaVentaV3 = () => {
     almacen: sucursal ? sucursal : '',
     descuentoSelect: "xx",
     glosa: "",
-    montoRecibido: ""
+    montoRecibido: "",
+    efectivo: 0,
+    qr: 0
   })
   //?Funciones
   // traer datos async
@@ -87,7 +89,9 @@ export const NuevaVentaV3 = () => {
       fecha: formatDateToInput(venta.fecha),
       glosa: venta.glosa || "",
       descuentoSelect: venta?.descuento?.id || "xx",
-      montoRecibido: venta.montoRecibido || 0
+      montoRecibido: venta.montoRecibido || 0,
+      efectivo: venta.montoEfectivo || 0,
+      qr: venta.montoQR || 0
     })
 
     setProductoSelect(prev => {
@@ -219,8 +223,8 @@ export const NuevaVentaV3 = () => {
   const handleSaveForm = (e) => {
     e.preventDefault()
     if (load) {
-      return
-    }
+      return;
+    };
     const form = {
       ...formState,
       productoSelect,
@@ -230,6 +234,7 @@ export const NuevaVentaV3 = () => {
       toast.error('Debes Seleccionar Productos para Generar una Venta.');
       return;
     }
+
     if (id) {
       toast.promise(
         updateVentav2(form, id),

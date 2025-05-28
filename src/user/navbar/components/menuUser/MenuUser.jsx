@@ -92,7 +92,7 @@ export const MenuUser = () => {
           <Divider sx={{ my: 1 }} />
           <Box mt={2}>
             {/* Logout */}
-            {/* <MenuItem
+            <MenuItem
               onClick={()=>navigate('/user/config')}
               sx={{
                 '&:hover': { backgroundColor: '#ececec' },
@@ -107,7 +107,7 @@ export const MenuUser = () => {
                 <SettingsIcon sx={{ fontSize: '1rem' }} />
               </ListItemIcon>
               <Typography variant="inherit"> Opciones </Typography>
-            </MenuItem> */}
+            </MenuItem>
             {/* Logout */}
             <MenuItem
               onClick={handleLogout}

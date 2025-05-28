@@ -16,24 +16,24 @@ export const useSaleStore = () => {
     const arrayBuffer = await pdfBlob.arrayBuffer();
     const originalPdf = await PDFDocument.load(arrayBuffer);
     const newPdf = await PDFDocument.create();
-  
+
     const [originalPage] = await newPdf.copyPages(originalPdf, [0]);
-  
+
     for (let i = 0; i < 2; i++) {
       newPdf.addPage(originalPage);
     }
-  
+
     const newPdfBytes = await newPdf.save();
     const finalBlob = new Blob([newPdfBytes], { type: 'application/pdf' });
     const url = URL.createObjectURL(finalBlob);
-  
+
     printJS({
       printable: url,
       type: 'pdf',
       showModal: true,
       style: '@page { size: 80mm 297mm portrait; }',
     });
-  
+
     setTimeout(() => URL.revokeObjectURL(url), 5000);
   };
   const nuevaVentav2 = async (formulario) => {
@@ -71,6 +71,8 @@ export const useSaleStore = () => {
       almacen: formulario.almacen,
       glosa: formulario.glosa,
       montoRecibido: parseFloat(formulario.montoRecibido),
+      montoEfectivo: parseFloat(formulario.efectivo),
+      montoQR: parseFloat(formulario.qr),
       detalles: detalles,
     };
 
@@ -79,6 +81,15 @@ export const useSaleStore = () => {
     }
     if (formulario.metodoPago === 'EFECTIVO') {
       delete datos.montoRecibido;
+    }
+    if (formulario.metodoPago !== 'QR-EFECTIVO') {
+      delete datos.montoEfectivo;
+      delete datos.montoQR;
+    }
+    if (formulario.metodoPago === 'QR-EFECTIVO') {
+      if ((parseFloat(formulario.efectivo) + parseFloat(formulario.qr) !== datos.total)) {
+        throw { message: 'El total introducido en QR y Efectivo no es igual al total de la venta.' }
+      }
     }
     dispatch(checking());
     try {
@@ -129,6 +140,8 @@ export const useSaleStore = () => {
       almacen: formulario.almacen,
       glosa: formulario.glosa,
       montoRecibido: parseFloat(formulario.montoRecibido),
+      montoEfectivo: parseFloat(formulario.efectivo),
+      montoQR: parseFloat(formulario.qr),
       detalles: detalles,
     };
 
@@ -137,6 +150,11 @@ export const useSaleStore = () => {
     }
     if (formulario.metodoPago === 'EFECTIVO') {
       delete datos.montoRecibido;
+    }
+    if (formulario.metodoPago === 'QR-EFECTIVO') {
+      if ((parseFloat(formulario.efectivo) + parseFloat(formulario.qr) !== datos.total)) {
+        throw { message: 'El total introducido en QR y Efectivo no es igual al total de la venta.' }
+      }
     }
     dispatch(checking());
     try {

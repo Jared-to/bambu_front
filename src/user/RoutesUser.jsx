@@ -71,12 +71,12 @@ export const RoutesUser = () => {
         <Route path="/productos/categorias" element={
           <RoutesProtected element={<PagCategorias />} allowedRoles={['admin']} />
         } />
-        {/* <Route path="/sucursales" element={
+        <Route path="/sucursales" element={
           <RoutesProtected element={<PagAlmacenes />} allowedRoles={['admin']} />
-        } /> */}
-        {/* <Route path="/sucursales/sucursal/:id" element={
+        } />
+        <Route path="/sucursales/sucursal/:id" element={
           <RoutesProtected element={<PagProductoAlmacen />} allowedRoles={['admin']} />
-        } /> */}
+        } />
         <Route path="/inventario-total" element={
           <RoutesProtected element={<PagInventario />} allowedRoles={['admin']} />
         } />
@@ -101,9 +101,9 @@ export const RoutesUser = () => {
         } /> */}
 
 
-        {/* <Route path="/pedidos" element={<PagPedidos />} /> */}
-        {/* <Route path="/pedidos/pendientes" element={<PagPedidosPendientes />} /> */}
-        {/* <Route path="/pedidos/cancelados" element={<PagPedidosCancelados />}  /> */}
+        <Route path="/pedidos" element={<PagPedidos />} />
+        <Route path="/pedidos/pendientes" element={<PagPedidosPendientes />} />
+        <Route path="/pedidos/cancelados" element={<PagPedidosCancelados />}  />
 
 
         <Route path="/gastos/categorias" element={
